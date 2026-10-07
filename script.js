@@ -32,3 +32,27 @@ function fee(){const a=+$("la").value||0,p=+$("lp").value||0,d=+$("ld").value||0
 ["la","lp","ld"].forEach(i=>$(i).oninput=fee);
 $("wf").onsubmit=e=>{if(!WAITLIST_URL){e.preventDefault();$("wm").textContent="The waitlist isn't connected yet. Check back soon.";return}$("wf").action=WAITLIST_URL};
 mark();make();lib();fee();
+
+/* ---- Who owes me tracker ---- */
+let T=[];try{T=JSON.parse(localStorage.getItem("kvt")||"[]")}catch(e){}
+const tsave=()=>{try{localStorage.setItem("kvt",JSON.stringify(T))}catch(e){}};
+const days=d=>{const n=new Date();n.setHours(0,0,0,0);return Math.round((n-new Date(d+"T00:00"))/864e5)};
+const money=n=>n.toLocaleString(undefined,{maximumFractionDigits:2});
+function track(){const el=$("tl");el.textContent="";let owed=0,over=0;
+const L=T.map((x,i)=>({x,i})).sort((a,b)=>a.x.p-b.x.p||(a.x.d>b.x.d?1:-1));
+if(!L.length)el.innerHTML='<p class="m">No one yet. Add a client above to start.</p>';
+L.forEach(({x,i})=>{const n=days(x.d);if(!x.p){owed+=x.a;if(n>0)over+=x.a}
+const r=document.createElement("div");r.className="row"+(x.p?" pd":"");
+const w=document.createElement("div");w.className="who";const b=document.createElement("b");b.textContent=`${x.c}: ${money(x.a)}`;
+const s=document.createElement("span");s.className="st "+(x.p?"pdn":n>0?"od":"ok");
+s.textContent=x.p?"Paid":n>0?`Overdue by ${n} day${n>1?"s":""}`:n==0?"Due today":`Due in ${-n} day${n<-1?"s":""}`;w.append(b,s);
+const a=document.createElement("div");a.className="acts";
+const mk=(t,f)=>{const k=document.createElement("button");k.className="btn o sm";k.textContent=t;k.onclick=f;a.append(k)};
+if(!x.p)mk("Write reminder",()=>{cat="pay";$("to").value=x.c;$("det").value=`${money(x.a)} (due ${x.d})`;$("tone").value=n>14?2:n>0?1:0;mark();make();$("app").scrollIntoView({behavior:"smooth"})});
+mk(x.p?"Undo":"Mark paid",()=>{x.p=!x.p;tsave();track()});
+mk("Delete",()=>{T.splice(i,1);tsave();track()});
+r.append(w,a);el.append(r)});
+$("s1").textContent=money(owed);$("s2").textContent=money(over)}
+$("ta").onclick=()=>{const c=$("tc").value.trim(),a=+$("tm").value,d=$("td").value;if(!c||!a||!d){$("td").focus();return}
+T.push({c,a,d,p:false});tsave();$("tc").value=$("tm").value=$("td").value="";track()};
+track();

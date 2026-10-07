@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
 <link rel="stylesheet" href="style.css"></head><body>
 <div class="w">
-<nav><b>kalyvech</b><a href="#join">Join waitlist</a></nav>
+<nav><b>kalyvech</b><span><a href="#track">Who owes me?</a> &nbsp; <a href="#join">Join waitlist</a></span></nav>
 <header><h1>Say the right thing, the first time.</h1>
 <p class="l">Pick a situation, add two details, and Kalyvech writes the message. Send it by email or WhatsApp, or copy it. Free, no sign-up.</p></header>
 
@@ -23,6 +23,11 @@
 <div><label>Preview</label><div class="bubble" id="out" aria-live="polite"></div>
 <div class="acts"><button class="btn" id="cp">Copy</button><a class="btn o" id="em" target="_blank" rel="noopener">Open email</a><a class="btn o" id="wa" target="_blank" rel="noopener">Open WhatsApp</a><button class="btn o" id="sv">Save</button></div></div>
 </div></section>
+
+<section id="track"><h2>Who owes me?</h2>
+<div class="card"><div class="r4"><div><label for="tc">Client</label><input id="tc" placeholder="Sam"></div><div><label for="tm">Amount</label><input id="tm" type="number" min="0" placeholder="450"></div><div><label for="td">Due date</label><input id="td" type="date"></div><div class="al"><button class="btn" id="ta">Add</button></div></div>
+<div class="sum"><div><span class="m">Still owed</span><b id="s1">0</b></div><div><span class="m">Overdue</span><b id="s2">0</b></div></div>
+<div id="tl"></div></div></section>
 
 <section><h2>Your saved messages</h2><div id="lib" class="card"></div></section>
 

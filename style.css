@@ -41,3 +41,5 @@ footer{color:var(--m);font-size:13px;margin-top:40px}
 @media(prefers-color-scheme:dark){.st.od{color:#fb923c}.st.pdn{color:#4ade80}}
 .row .acts{margin:0}.btn.sm{padding:6px 10px;font-size:13px}
 @media(max-width:700px){.r4{grid-template-columns:1fr 1fr}.al{grid-column:1/-1}}
+
+@media(min-width:701px){.chips{flex-wrap:wrap;overflow:visible}}

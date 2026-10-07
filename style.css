@@ -43,3 +43,10 @@ footer{color:var(--m);font-size:13px;margin-top:40px}
 @media(max-width:700px){.r4{grid-template-columns:1fr 1fr}.al{grid-column:1/-1}}
 
 @media(min-width:701px){.chips{flex-wrap:wrap;overflow:visible}}
+
+nav .logo{font:700 22px Georgia,serif;color:var(--ink);text-decoration:none}
+.art{max-width:680px;margin:0 auto}.art h1{font-size:clamp(28px,6vw,40px)}.art h2{font-size:21px;margin:30px 0 8px}.art p{margin:0 0 12px}
+.ex{background:var(--bub);border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:15px}
+.cta{margin-top:34px}.cta p{margin:6px 0 12px}
+.gl{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.gc{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:6px}
+footer a{color:var(--a)}.thx h3{font:700 22px Georgia,serif}.thx p{margin:6px 0 12px}

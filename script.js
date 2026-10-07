@@ -40,7 +40,14 @@ function sv(){try{localStorage.setItem("kvs",JSON.stringify(S))}catch(e){}}
 $("sv").onclick=()=>{S.unshift(txt);S=S.slice(0,20);sv();lib()};
 function fee(){const a=+$("la").value||0,p=+$("lp").value||0,d=+$("ld").value||0,f=a*p/100*d/30;$("fee").textContent=`Late fee: ${f.toFixed(2)}. Total to ask for: ${(a+f).toFixed(2)}. Check your contract first.`}
 ["la","lp","ld"].forEach(i=>$(i).oninput=fee);
-$("wf").onsubmit=e=>{if(!WAITLIST_URL){e.preventDefault();$("wm").textContent="The waitlist isn't connected yet. Check back soon.";return}$("wf").action=WAITLIST_URL};
+$("wf").onsubmit=async e=>{e.preventDefault();const f=$("wf"),m=$("wm");
+if(!WAITLIST_URL){m.textContent="The waitlist isn't connected yet. Check back soon.";return}
+const b=f.querySelector("button");b.disabled=true;m.textContent="Adding you...";
+try{const r=await fetch(WAITLIST_URL,{method:"POST",body:new FormData(f),headers:{Accept:"application/json"}});
+if(!r.ok)throw 0;thanks(f)}catch(x){b.disabled=false;m.textContent="That didn't work. Please check your email and try again."}};
+function thanks(f){const d=document.createElement("div");d.className="card thx";
+d.innerHTML='<h3>You are on the list! 🎉</h3><p>Thank you. We will email you when automatic sending opens. While you wait:</p><div class="acts"><a class="btn" href="#app">Try the message writer</a><a class="btn o" href="blog.html">Read our guides</a><button class="btn o" id="sh">Copy site link</button></div>';
+f.replaceWith(d);$("sh").onclick=()=>{const b=$("sh");(navigator.clipboard?navigator.clipboard.writeText(location.href.split("#")[0]):Promise.reject()).then(()=>{b.textContent="Link copied!"}).catch(()=>{b.textContent="Copy it from the address bar"})}}
 mark();make();lib();fee();
 
 /* ---- Who owes me tracker ---- */

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kalyvech: write the right message in seconds</title>
+<meta name="description" content="Free message writer for reminders, follow-ups, thank-yous, invites and more. Copy it or send it by email or WhatsApp.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+<link rel="stylesheet" href="style.css"></head><body>
+<div class="w">
+<nav><b>kalyvech</b><a href="#join">Join waitlist</a></nav>
+<header><h1>Say the right thing, the first time.</h1>
+<p class="l">Pick a situation, add two details, and Kalyvech writes the message. Send it by email or WhatsApp, or copy it. Free, no sign-up.</p></header>
+
+<section class="card" id="app">
+<div class="chips" id="chips" role="tablist" aria-label="Message type"></div>
+<div class="two">
+<div>
+<label for="to">Who is it for?</label><input id="to" value="Sam">
+<label for="det" id="detl">Details</label><input id="det">
+<label for="me">Your name</label><input id="me" value="Alex">
+<div class="r2"><div><label for="tone">Tone</label><select id="tone"><option value="0">Friendly</option><option value="1">Professional</option><option value="2">Short and direct</option></select></div>
+<div><label for="ch">Send by</label><select id="ch"><option value="email">Email</option><option value="wa">WhatsApp / text</option></select></div></div>
+</div>
+<div><label>Preview</label><div class="bubble" id="out" aria-live="polite"></div>
+<div class="acts"><button class="btn" id="cp">Copy</button><a class="btn o" id="em" target="_blank" rel="noopener">Open email</a><a class="btn o" id="wa" target="_blank" rel="noopener">Open WhatsApp</a><button class="btn o" id="sv">Save</button></div></div>
+</div></section>
+
+<section><h2>Your saved messages</h2><div id="lib" class="card"></div></section>
+
+<div class="ad">Ad space: an ad network like Google AdSense goes here</div>
+
+<section><h2>Also free: late-fee calculator</h2>
+<div class="card r3"><div><label for="la">Invoice amount</label><input id="la" type="number" value="1000"></div><div><label for="lp">Fee % per month</label><input id="lp" type="number" value="1.5" step="0.1"></div><div><label for="ld">Days late</label><input id="ld" type="number" value="45"></div>
+<div class="res" id="fee"></div></div></section>
+
+<section><h2>Plans</h2><div class="plans">
+<div class="card"><h3>Free</h3><p class="pr">$0</p><ul><li>8 message types</li><li>Email and WhatsApp links</li><li>Saved messages</li><li>Late-fee calculator</li></ul></div>
+<div class="card pro"><h3>Pro <small>coming soon</small></h3><p class="pr">$9<small>/month</small></p><ul class="lk"><li>Send reminders automatically</li><li>Stop when the client pays</li><li>Message history for every contact</li><li>Your own templates, no ads</li></ul><p class="m">Waitlist members get a lower early price.</p></div></div></section>
+
+<section><h2>Tools we like</h2><div class="plans"><div class="card m">Partner spot: invoicing app</div><div class="card m">Partner spot: business banking</div></div></section>
+
+<section id="join"><h2>Join the waitlist</h2><p class="m">Be first to know when automatic sending opens.</p>
+<form id="wf" method="post" class="card frm"><input name="email" type="email" required placeholder="you@email.com" aria-label="Email"><button class="btn" type="submit">Join</button><p id="wm" class="m"></p></form></section>
+<footer>Some links may be affiliate links that earn us a small commission at no cost to you.</footer>
+</div><script src="script.js"></script></body></html>

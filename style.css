@@ -50,3 +50,6 @@ nav .logo{font:700 22px Georgia,serif;color:var(--ink);text-decoration:none}
 .cta{margin-top:34px}.cta p{margin:6px 0 12px}
 .gl{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.gc{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:6px}
 footer a{color:var(--a)}.thx h3{font:700 22px Georgia,serif}.thx p{margin:6px 0 12px}
+
+textarea{width:100%;padding:10px;border:1px solid var(--b);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;resize:vertical}
+#inst{margin-top:6px}#bm{margin:10px 0 0}#tl+.acts{margin-top:14px}

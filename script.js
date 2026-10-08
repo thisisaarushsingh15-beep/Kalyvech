@@ -20,16 +20,23 @@ team:{n:"📣 Team notice",ph:"practice moved to 6 am Sunday",s:"Team notice",b:
 int:{n:"💼 Interview thank-you",ph:"the designer role",s:"Thank you for the interview",b:["Thank you for taking the time to talk with me about {d}. I really enjoyed it and I'm excited about working with you!","Thank you for speaking with me about {d}. I remain very interested and can share anything more you need.","Thanks for talking about {d}. I'm interested. Any update on next steps?"]},
 bday:{n:"🎂 Birthday wishes",ph:"birthday",s:"Happy birthday!",b:["Wishing you a wonderful {d}! Hope it's full of happy moments!","Warm wishes on your {d}. I hope the year ahead brings you every success.","Happy {d}! Have a great one."]}};
 let cat="pay",S=[];try{S=JSON.parse(localStorage.getItem("kvs")||"[]")}catch(e){}
+let U=[];try{U=JSON.parse(localStorage.getItem("kvu")||"[]")}catch(e){}
+const usave=()=>{try{localStorage.setItem("kvu",JSON.stringify(U))}catch(e){}};
 const chips=$("chips");
-Object.keys(C).forEach(k=>{const b=document.createElement("button");b.textContent=C[k].n;b.setAttribute("role","tab");b.onclick=()=>{cat=k;mark();make()};b.dataset.k=k;chips.append(b)});
+function build(){Object.keys(C).forEach(k=>{if(k[0]=="u")delete C[k]});
+U.forEach((u,i)=>{C["u"+i]={n:"⭐ "+u.n,ph:"details",s:u.n,b:[u.t,u.t,u.t]}});
+if(!C[cat])cat="pay";chips.textContent="";
+Object.keys(C).forEach(k=>{const b=document.createElement("button");b.textContent=C[k].n;b.setAttribute("role","tab");b.onclick=()=>{cat=k;mark();make()};b.dataset.k=k;chips.append(b)});mark();make()}
 function mark(){chips.querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.k==cat));$("det").placeholder=C[cat].ph;$("detl").textContent="Details (e.g. "+C[cat].ph+")"}
 let txt="";
-function make(){const c=C[cat],t=+$("tone").value,to=$("to").value||"there",me=$("me").value,d=$("det").value||c.ph,core=c.b[t].replaceAll("{d}",d);
-const body=`Hi ${to},\n\n${core}\n\n${["Thanks,","Kind regards,","Regards,"][t]}\n${me}`;
-txt=$("ch").value=="email"?`Subject: ${c.s}\n\n${body}`:`Hi ${to}! ${core}${me?" - "+me:""}`;
+function make(){const c=C[cat],cu=cat[0]=="u",t=+$("tone").value,to=$("to").value||"there",me=$("me").value,d=$("det").value||c.ph,
+core=c.b[t].replaceAll("{d}",d).replaceAll("{to}",to).replaceAll("{me}",me);
+const body=cu?core:`Hi ${to},\n\n${core}\n\n${["Thanks,","Kind regards,","Regards,"][t]}\n${me}`;
+const short=cu?core:`Hi ${to}! ${core}${me?" - "+me:""}`;
+txt=$("ch").value=="email"?(cu?core:`Subject: ${c.s}\n\n${body}`):short;
 $("out").textContent=txt;
 $("em").href="mailto:?subject="+encodeURIComponent(c.s)+"&body="+encodeURIComponent(body);
-$("wa").href="https://wa.me/?text="+encodeURIComponent(`Hi ${to}! ${core}${me?" - "+me:""}`)}
+$("wa").href="https://wa.me/?text="+encodeURIComponent(short)}
 ["to","det","me","tone","ch"].forEach(i=>$(i).oninput=make);
 $("cp").onclick=()=>{const b=$("cp");(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{b.textContent="Copied!";setTimeout(()=>b.textContent="Copy",1500)}).catch(()=>{b.textContent="Press and hold to copy"})};
 function lib(){const el=$("lib");el.textContent="";if(!S.length){el.innerHTML='<p class="m" style="margin:0">Nothing saved yet. Write a message and press Save.</p>';return}
@@ -48,7 +55,7 @@ if(!r.ok)throw 0;thanks(f)}catch(x){b.disabled=false;m.textContent="That didn't 
 function thanks(f){const d=document.createElement("div");d.className="card thx";
 d.innerHTML='<h3>You are on the list! 🎉</h3><p>Thank you. We will email you when automatic sending opens. While you wait:</p><div class="acts"><a class="btn" href="#app">Try the message writer</a><a class="btn o" href="blog.html">Read our guides</a><button class="btn o" id="sh">Copy site link</button></div>';
 f.replaceWith(d);$("sh").onclick=()=>{const b=$("sh");(navigator.clipboard?navigator.clipboard.writeText(location.href.split("#")[0]):Promise.reject()).then(()=>{b.textContent="Link copied!"}).catch(()=>{b.textContent="Copy it from the address bar"})}}
-mark();make();lib();fee();
+build();lib();fee();
 
 /* ---- Who owes me tracker ---- */
 let T=[];try{T=JSON.parse(localStorage.getItem("kvt")||"[]")}catch(e){}
@@ -73,3 +80,23 @@ $("s1").textContent=money(owed);$("s2").textContent=money(over)}
 $("ta").onclick=()=>{const c=$("tc").value.trim(),a=+$("tm").value,d=$("td").value;if(!c||!a||!d){$("td").focus();return}
 T.push({c,a,d,p:false});tsave();$("tc").value=$("tm").value=$("td").value="";track()};
 track();
+
+/* ---- My templates ---- */
+function tl(){const el=$("ul");el.textContent="";U.forEach((u,i)=>{const r=document.createElement("div");r.className="item";const p=document.createElement("p");p.textContent=u.n;const d=document.createElement("div");
+const x=document.createElement("button");x.className="btn o";x.textContent="Delete";x.onclick=()=>{U.splice(i,1);usave();cat="pay";build();tl()};d.append(x);r.append(p,d);el.append(r)})}
+$("us").onclick=()=>{const n=$("un").value.trim(),t=$("ut").value.trim();if(!n||!t){$("un").focus();return}
+U.push({n:n.slice(0,40),t:t.slice(0,1000)});usave();$("un").value=$("ut").value="";build();tl()};tl();
+/* ---- Backup ---- */
+$("bd").onclick=()=>{const b=new Blob([JSON.stringify({v:1,tracker:T,saved:S,templates:U})],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(b);
+a.download="kalyvech-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);$("bm").textContent="Backup downloaded. Keep the file somewhere safe."};
+$("br").onclick=()=>$("bf").click();
+$("bf").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);
+const t=(j.tracker||[]).filter(x=>x&&typeof x.c=="string"&&typeof x.a=="number"&&typeof x.d=="string").map(x=>({c:x.c.slice(0,80),a:x.a,d:x.d,p:!!x.p}));
+const s2=(j.saved||[]).filter(x=>typeof x=="string").slice(0,20);
+const u=(j.templates||[]).filter(x=>x&&typeof x.n=="string"&&typeof x.t=="string").map(x=>({n:x.n.slice(0,40),t:x.t.slice(0,1000)}));
+T=t;S=s2;U=u;tsave();sv();usave();cat="pay";track();lib();tl();build();
+$("bm").textContent=`Restored ${t.length} clients, ${s2.length} saved messages and ${u.length} templates.`}catch(x){$("bm").textContent="That file couldn't be read. Choose a Kalyvech backup file."}};r.readAsText(f);e.target.value=""};
+/* ---- Install as an app ---- */
+let ip;addEventListener("beforeinstallprompt",e=>{e.preventDefault();ip=e;$("inst").hidden=false});
+$("inst").onclick=async()=>{if(!ip)return;ip.prompt();await ip.userChoice;ip=null;$("inst").hidden=true};
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
